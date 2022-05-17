@@ -56,3 +56,5 @@ dkms.conf
 *.ewt
 /settings
 /Debug
+/EWARM/f103blmsc
+/EWARM/settings
