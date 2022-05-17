@@ -1,5 +1,6 @@
 #include "crc.h"
-static const uint32_t g_crc32[] = 
+
+static const uint32_t gCrc32[] = 
 {
     0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,
     0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005, 
@@ -67,28 +68,11 @@ static const uint32_t g_crc32[] =
     0xbcb4666d, 0xb8757bda, 0xb5365d03, 0xb1f740b4 
 };
 
-/**
- * @brief This function calculate crc32 
- * 
- * @param [in] crc      last crc value (0 by start)
- * @param [in] p_data   pointer to data
- * @param [in] data_len length in byte
- * 
- * @retval Returns new crc value
- *  
- * Description
- * -----------------
- *  
- * History
- * -----------------
- *  
- */ 
-uint32_t get_crc32(uint32_t crc, uint8_t * p_data, uint32_t data_len)
+uint32_t getCrc32(uint32_t crc, uint8_t * pData, uint32_t dataLength)
 {
-    for (; data_len; data_len--)
-    {
-        crc = (g_crc32[((crc >> 24) ^ *p_data++)] ^ (crc << 8));
+    for (uint32_t i = dataLength; i; i--) {
+        crc = (gCrc32[((crc >> 24) ^ *pData++)] ^ (crc << 8));
     }
-    
+
     return crc;
 }

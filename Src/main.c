@@ -73,7 +73,7 @@ int main(void)
   __disable_irq();
 
   if ((RCC->CSR & RCC_CSR_SFTRSTF) == 0) {
-      uint32_t crc = get_crc32(0,(uint8_t*) MAIN_PROGRAM_START_ADDRESS,
+      uint32_t crc = getCrc32(0,(uint8_t*) MAIN_PROGRAM_START_ADDRESS,
                              FLASH_END_ADDRESS - MAIN_PROGRAM_START_ADDRESS -4);
       
       uint32_t *app_crc = (uint32_t *)APP_CRC_ADDRESS;
