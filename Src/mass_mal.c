@@ -65,7 +65,7 @@ void input_write_proc(const uint8_t *dest, int size, uint32_t offset, size_t use
         
         for(int i = 0; i < page_count; i++)
         {
-            flash_erase_page(addr);
+            flashErasePage(addr);
             addr += PAGE_SIZE;
         }
         
@@ -76,13 +76,13 @@ void input_write_proc(const uint8_t *dest, int size, uint32_t offset, size_t use
 	
     __disable_irq();
     
-    flash_unlock();
+    flashUnlock();
     
-    Internal_Flash_Write(data, address, size);
+    flashWrite(data, address, size);
     
     address += size;
         
-    flash_lock();
+    flashLock();
     
     __enable_irq();
 }

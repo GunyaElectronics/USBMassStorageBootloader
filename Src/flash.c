@@ -1,54 +1,56 @@
 #include <stm32f10x.h>
 #include <flash.h>
 
-///////////////////////////////////////////////////////
-#define FLASH_KEY1               ((uint32_t)0x45670123)
-#define FLASH_KEY2               ((uint32_t)0xCDEF89AB)
-///////////////////////////////////////////////////////
+#define FLASH_UNLOCK_KEY1               ((uint32_t)0x45670123)
+#define FLASH_UNLOCK_KEY2               ((uint32_t)0xCDEF89AB)
 
-uint8_t flash_ready(void) {
- return !(FLASH->SR & FLASH_SR_BSY);
+uint8_t isFlashReady(void) {
+    return !(FLASH->SR & FLASH_SR_BSY);
 }
 
-void flash_erase_page(uint32_t address) {
-
- flash_unlock();
+void flashErasePage(uint32_t address)
+{
+    flashUnlock();
 
     FLASH->CR|= FLASH_CR_PER;
     FLASH->AR = address;
     FLASH->CR|= FLASH_CR_STRT;
-    while(!flash_ready())
-     ;
+
+    while(!isFlashReady()) {
+    }
+
     FLASH->CR&= ~FLASH_CR_PER;
 
-    flash_lock();
+    flashLock();
 }
 
-
-void flash_unlock(void) {
-   FLASH->KEYR = FLASH_KEY1;
-   FLASH->KEYR = FLASH_KEY2;
+void flashUnlock(void) {
+    FLASH->KEYR = FLASH_UNLOCK_KEY1;
+    FLASH->KEYR = FLASH_UNLOCK_KEY2;
 }
 
-void flash_lock() {
- FLASH->CR |= FLASH_CR_LOCK;
+void flashLock() {
+    FLASH->CR |= FLASH_CR_LOCK;
 }
 
-void Internal_Flash_Write(unsigned char* data, unsigned int address, unsigned int count) {
-	unsigned int i;
+void flashWrite(uint8_t *pData, uint32_t address, uint32_t count) {
+    uint32_t i;
 
-	while (FLASH->SR & FLASH_SR_BSY);
-	if (FLASH->SR & FLASH_SR_EOP) {
-		FLASH->SR = FLASH_SR_EOP;
-	}
+    while (FLASH->SR & FLASH_SR_BSY) {
+    }
 
-	FLASH->CR |= FLASH_CR_PG;
+    if (FLASH->SR & FLASH_SR_EOP) {
+        FLASH->SR = FLASH_SR_EOP;
+    }
 
-	for (i = 0; i < count; i += 2) {
-		*(volatile unsigned short*)(address + i) = (((unsigned short)data[i + 1]) << 8) + data[i];
-		while (!(FLASH->SR & FLASH_SR_EOP));
-		FLASH->SR = FLASH_SR_EOP;
-	}
+    FLASH->CR |= FLASH_CR_PG;
 
-	FLASH->CR &= ~(FLASH_CR_PG);
+    for (i = 0; i < count; i += 2) {
+        *(volatile unsigned short*)(address + i) = (((unsigned short)pData[i + 1]) << 8) + pData[i];
+        while (!(FLASH->SR & FLASH_SR_EOP)) {
+        }
+        FLASH->SR = FLASH_SR_EOP;
+    }
+
+    FLASH->CR &= ~(FLASH_CR_PG);
 }
