@@ -145,6 +145,8 @@
   #include "stm32f102xb.h"
 #elif defined(STM32F103x6)
   #include "stm32f103x6.h"
+#elif defined(STM32F103x8)
+  #include "stm32f103xb.h"
 #elif defined(STM32F103xB)
   #include "stm32f103xb.h"
 #elif defined(STM32F103xE)
