@@ -1035,13 +1035,7 @@
                 <name>$PROJ_DIR$\..\Src\crc.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Src\emfat.c</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\..\Src\flash.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Src\hw_config.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Src\main.c</name>
@@ -1049,15 +1043,36 @@
             <file>
                 <name>$PROJ_DIR$\..\Src\mass_mal.c</name>
             </file>
+        </group>
+    </group>
+    <group>
+        <name>Drivers</name>
+        <group>
+            <name>CMSIS</name>
+            <file>
+                <name>$PROJ_DIR$\..\Src\system_stm32f1xx.c</name>
+            </file>
+        </group>
+        <group>
+            <name>Hardware</name>
+            <file>
+                <name>$PROJ_DIR$\..\Src\hw_config.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Src\stm32_it.c</name>
+            </file>
+        </group>
+        <group>
+            <name>MSCUserCode</name>
             <file>
                 <name>$PROJ_DIR$\..\Src\memory.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Src\scsi_data.c</name>
             </file>
-            <file>
-                <name>$PROJ_DIR$\..\Src\stm32_it.c</name>
-            </file>
+        </group>
+        <group>
+            <name>USBUserCode</name>
             <file>
                 <name>$PROJ_DIR$\..\Src\usb_bot.c</name>
             </file>
@@ -1082,16 +1097,13 @@
         </group>
     </group>
     <group>
-        <name>Drivers</name>
+        <name>Middlewares</name>
         <group>
-            <name>CMSIS</name>
+            <name>Emfat</name>
             <file>
-                <name>$PROJ_DIR$\..\Src\system_stm32f1xx.c</name>
+                <name>$PROJ_DIR$\..\Src\emfat.c</name>
             </file>
         </group>
-    </group>
-    <group>
-        <name>Middlewares</name>
         <group>
             <name>USB-FS-Device_Driver</name>
             <file>
