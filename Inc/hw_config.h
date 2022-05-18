@@ -38,7 +38,10 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported define -----------------------------------------------------------*/
-#define BULK_MAX_PACKET_SIZE  0x00000040
+#define BULK_MAX_PACKET_SIZE            0x00000040
+#define CLEAR_SOFT_RESET_FLAG()         (RCC->CSR |= RCC_CSR_RMVF)
+#define MAIN_PROGRAM_START_ADDRESS      ((uint32_t)USER_FLASH_START_ADDRESS)
+#define APP_CRC_ADDRESS                 (FLASH_END_ADDRESS - 4)
 
 /* Exported functions ------------------------------------------------------- */
 void Set_System(void);

@@ -12,14 +12,14 @@ void flashErasePage(uint32_t address)
 {
     flashUnlock();
 
-    FLASH->CR|= FLASH_CR_PER;
-    FLASH->AR = address;
-    FLASH->CR|= FLASH_CR_STRT;
+    FLASH->CR |= FLASH_CR_PER;
+    FLASH->AR  = address;
+    FLASH->CR |= FLASH_CR_STRT;
 
-    while(!isFlashReady()) {
+    while (!isFlashReady()) {
     }
 
-    FLASH->CR&= ~FLASH_CR_PER;
+    FLASH->CR &= ~FLASH_CR_PER;
 
     flashLock();
 }
