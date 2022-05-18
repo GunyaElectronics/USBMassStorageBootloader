@@ -24,7 +24,9 @@ int main(void)
 
     startUsbMassStorageBootloader();
 
-    while(1);
+    while (1) {
+        // All bootloader code working in interrupt mode
+    }
 }
 
 //---------------- static function implementation ----------------
@@ -64,15 +66,15 @@ static void clockConfig(void)
 
 static uint8_t isSoftReset(void)
 {
-    return (RCC->CSR & RCC_CSR_SFTRSTF) == 1;
+    return (RCC->CSR & RCC_CSR_SFTRSTF) != 0;
 }
 
 static uint8_t isApplicationValid(void)
 {
-    uint32_t crc = getCrc32(0,(uint8_t*) MAIN_PROGRAM_START_ADDRESS,
-                            FLASH_END_ADDRESS - MAIN_PROGRAM_START_ADDRESS -4);
-
     const uint32_t *pAppCrc = (const uint32_t *)APP_CRC_ADDRESS;
+
+    uint32_t crc = getCrc32(0,(uint8_t *) MAIN_PROGRAM_START_ADDRESS,
+                            FLASH_END_ADDRESS - MAIN_PROGRAM_START_ADDRESS - sizeof(*pAppCrc));
 
     return crc == *pAppCrc;
 }
@@ -99,6 +101,7 @@ static void startUsbMassStorageBootloader(void)
 
 static void loadApplication(void)
 {
+#define MSP_SIZE (sizeof(uint32_t))
     typedef void (*pFunction_t)(void);
 
     static pFunction_t gApplicationFunction = NULL;
@@ -112,7 +115,7 @@ static void loadApplication(void)
     // This value must be a multiple of 0x100.
     SCB->VTOR = (((uint32_t)0x08000000) | (MAIN_PROGRAM_START_ADDRESS & (uint32_t)0x1FFFFF80));
 
-    const uint32_t kJumpAddress = *(__IO uint32_t*)(MAIN_PROGRAM_START_ADDRESS + 4);
+    const uint32_t kJumpAddress = *(__IO uint32_t*)(MAIN_PROGRAM_START_ADDRESS + MSP_SIZE);
 
     gApplicationFunction = (pFunction_t)kJumpAddress;
 
@@ -122,4 +125,5 @@ static void loadApplication(void)
     // Jump to main application
     // NOTE: In Application you nead enable global interrupt
     gApplicationFunction();
+#undef MSP_SIZE
 }
