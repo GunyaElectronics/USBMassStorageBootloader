@@ -16,8 +16,7 @@
 uint8_t isFlashReady(void);
 void flashErasePage(uint32_t address);
 void flashUnlock(void);
-void flashLock();
-void flashWrite(unsigned char* data, unsigned int address,
-                          unsigned int count);
+void flashLock(void);
+void flashWrite(uint8_t *pData, uint32_t address, uint32_t count);
 
 #endif //_FLASH_

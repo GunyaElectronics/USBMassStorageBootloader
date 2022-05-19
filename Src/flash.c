@@ -29,7 +29,7 @@ void flashUnlock(void) {
     FLASH->KEYR = FLASH_UNLOCK_KEY2;
 }
 
-void flashLock() {
+void flashLock(void) {
     FLASH->CR |= FLASH_CR_LOCK;
 }
 
